@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue组件-全局组件、创建组件简化方式</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--<button-counter></button-counter>-->
+        <abc></abc>
+    </div>
+<!--------------------------------------------------------------方法五-->
+<!--    <script id="info" type="text/html">
+        <div>
+            <img src='./image/02.gif'>
+            <p>描述信息</p>
+        </div>
+    </script>-->
+<!--------------------------------------------------------------方法五^-->
+
+<!--------------------------------------------------------------方法六-->
+    <template id="info">
+        <div>
+            <img src='./image/02.gif'>
+            <p>描述信息</p>
+        </div>
+    </template>
+<!--------------------------------------------------------------方法六^-->
+    <script>
+////////////////////////////////////////////////////////////////方法五、六
+        Vue.component("abc",{
+            template:"#info"
+        });
+////////////////////////////////////////////////////////////////方法四
+/*        Vue.component("abc",{
+            template:'<div>\n' +
+                '            <img alt="圖片" src=\'./image/02.gif\'>\n' +
+                '            <p>描述信息</p>\n' +
+                '        </div>'
+        });*/
+////////////////////////////////////////////////////////////////方法三
+        /*let obj = {
+            template:'<div>\n' +
+                '            <img alt="圖片" src=\'./image/02.gif\'>\n' +
+                '            <p>描述信息</p>\n' +
+                '        </div>'
+        };
+        Vue.component('abc',obj);*/
+////////////////////////////////////////////////////////////////方法二
+/*
+        //创建组件三个步骤
+        //1.创建组件构造器
+        let Profile = Vue.extend({
+            templete: "<div><img src='./image/02.gif'><p>描述信息</p></div>"
+        });
+        //2.注册创建好的构造器
+        Vue.component('abc',Profile);
+        //3.使用已注册组件
+*/
+
+///////////////////////////////////////////////////////////////方法一
+/*        Vue.component("button-counter",{
+            data:function () {
+                return{
+                    count:0
+                }
+            },
+            template:"<button @click='count++'>" +
+                "{{count}}次。" +
+                "</button>>"
+        });*/
+
+      let vue = new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+
+            },
+        })
+    </script>
+</body>
+</html>

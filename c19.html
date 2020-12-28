@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>简易记事本</title>
+		<script type="text/javascript" src="./vue.js">
+			
+		</script>
+		<style type="text/css">
+			ul{
+				list-style: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="message" @keypress.enter ="add" name="" id="" value="" placeholder="请输入"/>
+			
+			
+			<p v-show="arr.length != 0">所有记录：{{arr.length}}</p>
+			
+			<input type="button" @click="delAll" v-show="arr.length != 0" name="" id="" value="清空" />
+			<input type="button" @click="del" v-show="arr.length != 0" name="" id="" value="删除" />
+			
+			
+			<ul>
+				<li v-for="(item,index) in arr">
+					{{index+1}} {{item}}
+				</li>
+			</ul>
+		</div>
+		
+		
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					arr:[],
+					message:""
+				},
+				methods:{
+					add:function(){
+						that = this.message;
+						this.arr.push(that);
+					},
+					del:function(){
+						this.arr.shift();
+					},
+					delAll:function(){
+						this.arr = [];
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

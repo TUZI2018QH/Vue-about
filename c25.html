@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>局部过滤器</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--<p>{{name | formatStr}}</p>-->
+        <p>{{time | dateFormat("yyyy-MM-dd")}}</p>
+    </div>
+
+<script>
+    Vue.filter("dateFormat",function (value, fmStr) {
+        /*
+        * 在使用过滤器的时候，可以在过滤器名称后面加上圆括号
+        * 如果给过滤器加上了圆括号，那么就可以给给过滤器传递参数
+        * 第一个参数是默认值--》待处理数据
+        * */
+        console.log(fmStr);
+        let date = new Date(value);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1 +"";
+        let day = date.getDate() +"";
+        let hours = date.getHours() +"";
+        let minutes = date.getMinutes() +"";
+        let seconds = date.getSeconds() +"";
+        // return year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+        if(fmStr && fmStr === "yyyy-MM-dd"){
+            return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+        }
+        else{
+            return `${year}
+        -${month.padStart(2, "0")}
+        -${day.padStart(2, "0")}
+         ${hours.padStart(2, "0")}
+        :${minutes.padStart(2, "0")}
+        :${seconds.padStart(2, "0")}`;
+        }
+
+    });
+    let app = new Vue({
+        el: "#app",
+        data: { //这里是MVVM中的Model
+            name: "1q 1w 1r 1t",
+            time: Date.now()
+        },
+        methods: { // 专门用于存储监听事件的回调函数
+
+        },
+        filters: { //专门用于定义局部过滤器的
+            "formatStr": function (value) {
+                value = value.replace(/1/g,"20");  //  /g--》 执行全局匹配
+                console.log(value);
+                return value;
+            }
+        }
+    })
+</script>
+</body>
+</html>

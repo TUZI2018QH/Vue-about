@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>图片轮播</title>
+		<script type="text/javascript" src="./vue.js">
+			
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			<img :src="imgList[index]" />
+			
+			<button type="button" @click="pre" v-show="index!=0"> < </button>
+			<button type="button" @click="next" v-show="index != imgList.length-1"> > </button>
+		</div>
+		
+		
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					imgList:["./image/01.gif",
+							"./image/02.gif",
+							"./image/03.gif",
+							
+							"./image/04.gif",
+							"./image/05.gif",
+							"./image/06.gif",
+							
+							"./image/07.gif",
+							"./image/08.gif",
+							"./image/09.gif",
+							
+							"./image/10.gif",
+					],
+					index:0,
+				},
+				methods:{
+					pre:function(){
+						this.index--;
+					},
+					next:function(){
+						this.index++;
+					}
+				}
+				
+			});
+		</script>
+	</body>
+</html>

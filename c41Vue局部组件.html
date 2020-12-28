@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue局部组件</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <abc></abc>
+    </div>
+    <div id="app2">
+        <abc></abc>
+    </div>
+
+    <!--组件模板书写区域-->
+    <template id="info">
+        <div>
+            <img src='./image/02.gif'>
+            <p>描述信息</p>
+        </div>
+    </template>
+
+    <script>
+        //组件构建器  全局组件
+/*        Vue.component("abc",{
+            template:"#info"
+        });*/
+
+      let vue1 =  new Vue({
+            el: "#app1",
+            data: {
+
+            },
+            methods: {
+
+            },
+            components:{ // 局部组件 只能在app1控制域里使用
+                "abc":{
+                    template:"#info"
+                }
+            }
+
+        });
+        let vue2 = new Vue({
+            el: "#app2",
+            data: {
+
+            },
+            methods: {
+
+            },
+
+        })
+    </script>
+</body>
+</html>

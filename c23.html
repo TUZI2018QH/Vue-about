@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性与函数的区别</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg1()}}</p>
+        <p>{{msg1()}}</p>
+        <p>{{msg1()}}</p>
+
+        <p>{{msg2}}</p>
+        <p>{{msg2}}</p>
+        <p>{{msg2}}</p>
+    </div>
+
+<script>
+    let app = new Vue({
+        el: "#app",
+        data: { //这里是MVVM中的Model
+
+        },
+        methods: { // 专门用于存储监听事件的回调函数
+            msg1: function () {
+                console.log("函数被执行了");
+                return "asdfg".split("").reverse().join("")
+            }
+        },//函数的特点：每次调用都都会执行
+        computed: { // 用于
+            msg2: function () {
+                return "asdfg".split("").reverse().join("")
+            }//计算属性的特点 只要返回的结果没有发生变化，那么计算属性就只会被执行一次
+                //由于计算属性会将返回的结果缓存起来，所以如果返回的数据不经常发生变化的话，那么使用计算属性会提高页面性能
+        }
+    })
+</script>
+</body>
+</html>

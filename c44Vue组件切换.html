@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue组件切换</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="toggle">切换</button>
+        <!--<p v-if="isShow">我是首页</p>-->
+        <!--<img v-else src="./image/09.gif"/>-->
+        <home v-if="isShow"></home>
+        <pic v-else></pic>
+    </div>
+
+    <template id="home">
+        <div>
+            <p>我是首页</p>
+        </div>
+    </template>
+
+    <template id="pic">
+        <div>
+            <img src="./image/05.gif" alt=""/>
+        </div>
+    </template>
+
+    <script>
+        Vue.component("home",{
+            template:"#home"
+        });
+        Vue.component("pic",{
+            template:"#pic"
+        });
+
+        new Vue({
+            el: "#app",
+            data: {
+                isShow:true
+            },
+            methods: {
+                toggle(){
+                    this.isShow = !this.isShow
+                }
+            },
+        })
+    </script>
+</body>
+</html>

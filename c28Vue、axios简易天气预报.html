@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Vue、axios简易天气预报</title>
+		 <!--<script type="text/javascript" src="./vue.js"></script>-->
+		 <!--<script type="text/javascript" src="./axios.min.js"></script>-->
+		<script type="text/javascript" src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<style type="text/css">
+			
+			.box{
+				display: inline-block;
+				margin-left: 10px;
+				border: aquamarine 1px dotted;
+				text-align: center;
+			}
+		/* 	span{
+				display: inline-block;
+			} */
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="city" @keyup.enter="getWeather" name="" id="a1"  value="" placeholder="输入地址" />
+			<input type="button" @click="getWeather" name="" id="a2" value="确认" />
+			
+			<ul>
+				<li v-for="item in weatherList" class="box">
+					{{item.fxDate}}
+					<hr/>{{item.textDay}}
+					<hr/><span>{{item.moonPhase}}</span>
+					<hr/><span>最高温度：{{item.tempMax}}</span>
+					<hr/><span>最低温度：{{item.tempMin}}</span>
+					</span>
+				</li>
+			</ul>
+		</div>
+		
+		
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					city:"",
+					lats:"",
+					lons:"",
+					weatherList:[]
+				},
+				methods:{
+					
+					getWeather:function(){
+						var  that = this;
+						axios.get("https://geoapi.heweather.net/v2/city/lookup?location="+ that.city +"&key=9ffdced3f3744dff9655516e0427faa1")
+						.then(function(response){
+							this.lats = response.data.location[0].lat;
+							this.lons = response.data.location[0].lon;
+							axios.get("https://devapi.heweather.net/v7/weather/3d?location="+this.lons+","+this.lats+"&key=9ffdced3f3744dff9655516e0427faa1")
+							.then(function(response){
+								console.log(response);
+								console.log(response.data.daily);
+								that.weatherList = response.data.daily;
+							})
+							.catch(function(error){
+								console.log(error);
+							});
+						})
+						.catch(function(error){
+							console.log(error);
+						});	
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
+<!-- 							// var aNew;
+							// var re = /([0-9]+.[0-9]{2})[0-9]*/;
+							// aNew = lats.replace(re,"$1");
+							// console.log(aNew); -->

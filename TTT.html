@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="vue.js"></script>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            .size{
+                font-size: 100px;
+            }
+            .color{
+                color: red;
+            }
+            .active{
+                background: skyblue;
+            }
+            .size,.color,.active{
+                transition: all .3s ease-in-out;
+            }
+            .btn{
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body>
+    <div id="app">
+        <input class="btn" type="button" :value="heimi" @click="change">
+        <!--<p :class="[flag?'size':'',flag?'color':'',flag ? 'active':'']">{{name}}</p>-->
+        <!--<p :class="[flag?'size':'',flag?'color':'',{'active':flag}]">{{name}}</p>-->
+        <p :class="obj">{{name}}</p>
+
+        <!--<p v-text="name"></p>-->
+        <!--<p v-html="name"></p>-->
+
+        <!--<input v-model="name">-->
+        <!--<input :type="type" :placeholder="name">-->
+    </div>
+
+        <script>
+           new Vue({
+                el:"#app",
+                data:{
+                    name:"海",
+                    type:"text",
+                    heimi:"VV",
+                    flag: true,
+                    obj:{
+                        'size':true,
+                        'color':true,
+                        'active':false
+                    }
+                },
+               methods:{
+                    change:function () {
+                        this.flag = this.flag !== true;
+                    }
+               }
+            });
+        </script>
+    </body>
+</html>

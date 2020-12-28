@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自负定义全剧过滤器</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--vue 会把name 交个指定的过滤器处理之后，在把处理后的数据插入到指定的元素中-->
+        <p>{{name | formatStr1 | formatStr2}}</p>
+    </div>
+
+<script>
+    /*
+    * 定义一个全局的过滤器
+    * 通过Vue.filter()方法
+    * 两个参数 一、过滤器名称 二、处理数据的函数
+    *
+    * 默认情况下处理数据的函数接收一个参数，就是当前要被处理的数据
+    *
+    * 过滤器只能在插值语法和v-bind中使用
+    * 过滤器可以连续使用，同时使用多个过滤器
+    * */
+    Vue.filter("formatStr1",function (value) {
+        // console.log(value);
+        value = value.replace(/99/g,"20");  //  /g--》 执行全局匹配
+        console.log(value);
+        return value;
+    });
+    Vue.filter("formatStr2",function (value) {
+        // console.log(value);
+        value = value.replace(/1/g,"20");  //  /g--》 执行全局匹配
+        console.log(value);
+        return value;
+    });
+    let app = new Vue({
+        el: "#app",
+        data: { //这里是MVVM中的Model
+            name:"1阿萨德99 1大99 1风格99 1为99"
+        },
+        methods: { // 专门用于存储监听事件的回调函数
+
+        },
+    })
+</script>
+</body>
+</html>

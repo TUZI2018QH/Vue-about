@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue组件：data和methods</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<!--这里是MVVM中的View-->
+    <div id="app">
+        <!--<button @click="appFn">点击</button>-->
+        <abc></abc>
+        <abc></abc>
+    </div>
+
+<!--组件模板书写区域-->
+<template id="info">
+    <div>
+        <img src='./image/02.gif'>
+        <button @click="appFn">点击</button>
+        <p>{{num}}</p>
+        <p>描述信息</p>
+    </div>
+</template>
+
+    <script>
+        Vue.component("abc",{
+            template:"#info",
+            data:function(){ //自定义组件中data必须是一个函数，以避免数据混乱
+                return{
+                    num:0
+                }
+            },
+            methods:{ //自定义组件使用methods
+                appFn(){
+                    this.num++
+                }
+            }
+        });
+        new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+/*                appFn(){
+                    alert("功能");
+                }*/
+            },
+        })
+    </script>
+</body>
+</html>

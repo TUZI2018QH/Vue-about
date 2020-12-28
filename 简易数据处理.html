@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>简易数据处理</title>
+		<link rel="stylesheet" href="简易数据处理.css">
+		<script src="vue.js"></script>
+		
+	</head>
+	<body>
+		<div id="app">
+			<form action="" v-show="isShow">
+				<input type="text" placeholder="请输入序号" v-model="person.id">
+				<input type="text" placeholder="请输入姓名" v-model="person.name">
+				<input type="text" placeholder="请输入分数" v-model="person.score">
+				<input type="button" value="添加" @click.prevent="add">
+				<input type="button" value="查询" @click.prevent="query">
+			</form>
+			<table>
+				<tr>
+					<th>序号</th>
+					<th>姓名</th>
+					<th>分数</th>
+					<th>时间</th>
+					<th>操作</th>
+				</tr>
+
+				<tr v-for="(person, index) in persons">
+					<td><input type="text" v-model="person.id" :disabled="isDisabled"></td>
+					<td><input type="text" v-model="person.name" :disabled="isDisabled"></td>
+					<td><input type="text" v-model="person.score" :disabled="isDisabled"></td>
+					<td><input type="text" :value="person.time | timeFormat" disabled></td>
+					<td>
+						<a href="#" @click.prevent="edit">编辑</a>
+						<a href="#" @click.prevent="del(index)">删除</a>
+						<a href="#" @click.prevent="more">更多</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+	<script src="简易数据处理.js"></script>
+</html>
+

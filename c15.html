@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>v-for </title>
+		<script type="text/javascript" src="./vue.js">
+			
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="button" @click="add" name="" id="" value="添加" />
+			<input type="button" @click="remove" name="" id="" value="删除" />
+			<ul>
+				<li v-for="(item,index) in arr">
+					{{index+1}} {{item}}
+				</li>
+				<li v-for="(item,index) in objArr">
+					<h2> {{index+1}} {{item.name}} {{item.sex}}</h2>
+				</li>
+			</ul>
+		</div>
+		
+		
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					arr:[1,2,3,4,5],
+					
+					objArr:[
+						{name:"嫄",
+						sex:"女"	
+						},
+						{name:"啊",
+						sex:"女"}
+					]
+				},
+				methods:{
+					add:function(){
+						this.objArr.push({name:"嫄啊嫄",sex:"奻"});
+					},
+					remove:function(){
+						this.objArr.shift();
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>v-if指令</title>
+		<script type="text/javascript" src="./vue.js">
+			
+		</script>
+		<!-- 本质是操纵 DOM树 性能消耗更大 -->
+	</head>
+	<body>
+		<div id="app">
+			<button type="button" @click="changeShow">改变</button>
+			<p v-if="isShow"> {{message}} </p>
+			<p v-show="isShow">{{message}}</p>
+			<img v-if="isShow" src="./preview.jpg" >
+		</div>
+		
+		
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					message:"嫄",
+					isShow:true
+				},
+				methods:{
+					changeShow:function(){
+						this.isShow = !this.isShow;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

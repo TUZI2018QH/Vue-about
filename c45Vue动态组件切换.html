@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue动态组件切换</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="toggle">切换</button>
+        <!--keep-alive 会保存状态 将状态保存在缓存中 配合动态组件component使用-->
+        <keep-alive>
+            <component v-bind:is="name" ></component>
+        </keep-alive>
+    </div>
+
+    <template id="home">
+        <div>
+            <p>我是首页</p>
+            <input type="checkbox">
+        </div>
+    </template>
+
+    <template id="pic">
+        <div>
+            <img src="./image/05.gif" alt=""/>
+        </div>
+    </template>
+
+    <script>
+        Vue.component("home",{
+            template:"#home"
+        });
+        Vue.component("pic",{
+            template:"#pic"
+        });
+
+        new Vue({
+            el: "#app",
+            data: {
+                isShow:true,
+                name:"home"
+            },
+            methods: {
+                toggle(){
+                    this.name = this.name === "home" ? "pic" : "home"
+                }
+            },
+        })
+    </script>
+</body>
+</html>

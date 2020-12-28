@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="vue.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #app{
+            width: 800px;
+            /*margin: 0px auto 0 auto;*/
+            margin: 50px auto 0 auto;
+            /*background-color: aquamarine;*/
+        }
+        table{
+            width: 100%;
+            background-color: #000;
+        }
+        table tr{
+            background-color: #fff;
+        }
+        form{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        input{
+            text-align: center;
+        }
+        .v-enter{
+            opacity: 0;
+        }
+        .v-enter-to{
+            opacity: 1;
+        }
+        .v-enter-active{
+            transition: all .6s ease-in-out;
+        }
+        .v-leave{
+            opacity: 1;
+        }
+        .v-leave-to{
+            opacity: 0;
+        }
+        .v-leave-active{
+            transition: all .5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <transition>
+            <form v-show="isShow">
+                <input type="text" placeholder="请输入序号" v-model="person.id">
+                <input type="text" placeholder="请输入姓名" v-model="person.name">
+                <input type="text" placeholder="请输入分数" v-model="person.score">
+                <input type="submit" value="新增" @click.prevent="add">
+                <input type="submit" value="查询" @click.prevent="query">
+            </form>
+        </transition>
+
+        <table>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>分数</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+
+            <tr v-for="(person, index) in persons">
+                <!--<td><input type="text" :value="person.id" :disabled="isDisabled"></td>
+                <td><input type="text" :value="person.name" :disabled="isDisabled"></td>
+                <td><input type="text" :value="person.score" :disabled="isDisabled"></td>
+                <td><input type="text" :value="person.date | formatDate" :disabled="isDisabled"></td>-->
+
+                <td><input type="text" v-model="person.id" :disabled="isDisabled"></td>
+                <td><input type="text" v-model="person.name" :disabled="isDisabled"></td>
+                <td><input type="text" v-model="person.score" :disabled="isDisabled"></td>
+                <td><input type="text" :value="person.date | formatDate" disabled></td>
+                <td>
+                    <a href="#" @click.prevent="edit">编辑</a>
+                    <a href="#" @click.orevent="del(index)">删除</a>
+                    <a href="#" @click.prevent="toggle">更多</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<script>
+    Vue.filter("formatDate",(value) => {
+        let date = new Date(value);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1 +"";
+        let day = date.getDate() +"";
+        let hours = date.getHours() +"";
+        let minutes = date.getMinutes() +"";
+        let seconds = date.getSeconds() +"";
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")} ${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}:${seconds.padStart(2, "0")}`;//padStart 判断长度条件 前一位参数为指定长度，若不满足则添加第二位自定义参数
+
+    });
+    let app = new Vue({
+        el: "#app",
+        data: { //这里是MVVM中的Model
+            isDisabled:true,
+            isShow:false,
+            persons:[{
+                id:1,
+                name:"zs",
+                score:"77",
+                date:Date.now()
+             },
+            {
+                id:2,
+                name:"ls",
+                score:"87",
+                date:Date.now()
+            },
+            {
+                id:3,
+                name:"es",
+                score:"69",
+                date:Date.now()
+            }],
+            person:{
+                id:"",
+                name:"",
+                score:"",
+                // date: Date.now()
+            }
+        },
+        methods: { // 专门用于存储监听事件的回调函数
+            edit() {
+                this.isDisabled = !this.isDisabled
+            },
+            toggle(){
+                this.isShow = !this.isShow
+            },
+            del(index){
+                // console.log(index);
+                this.persons.splice(index,1);
+            },
+            add(){
+                this.person.date = Date.now();
+                this.persons.push(this.person);
+                this.person = { //输入完一条数据后清空输入框
+                    id:"",
+                    name:"",
+                    score:""
+                };
+            },
+            query(){
+                let newPersons = this.persons.filter((person) => {
+                    // console.log(person.score === this.person.score);
+                    // console.log(person.score);
+                    console.log(person);
+                    console.log(this.person.score);
+                    if(person.score === this.person.score){
+                        return true;
+                    }
+                });
+                // console.log(newPersons);
+                this.persons = newPersons;
+            }
+        },
+    })
+</script>
+</body>
+</html>

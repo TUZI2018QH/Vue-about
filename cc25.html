@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<script type="text/javascript" src="./vue.js"></script>
+		<script type="text/javascript" src="./axios.min.js"></script>
+		<!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+		<style type="text/css">
+			.divs{
+				display: inline-block;
+			}
+		</style>
+	</head>
+	<body>
+
+		<button type="button" class="get">GET</button>
+		<button type="button" class="post">POST</button>
+		<div id="app">
+			
+			<button type="button" @click="pre" >上一条</button>
+			<button type="button" @click="next" >下一条</button>
+			<br/>
+			<div v-for="item in message[index]" class="divs">
+				{{item}}
+			</div>
+					
+
+		</div>
+		
+		
+		<script>
+			
+			document.querySelector(".post").onclick = function(){
+				axios.post(" http://api.avatardata.cn/Joke/QueryJokeByTime?key=1ed0be1545e24327acda88234d8ca496&page=2&rows=10&sort=asc&time=1418745237")
+				  .then(function (response) {
+				    console.log(response);
+					
+					var app = new Vue({
+						el:"#app",
+						data:{
+							index:0,
+							message:[
+								response.data.result[0].content,
+								response.data.result[1].content,
+								response.data.result[2].content,
+								response.data.result[3].content,
+								response.data.result[4].content,
+								response.data.result[5].content,
+								response.data.result[6].content,
+								response.data.result[7].content,
+								response.data.result[8].content,
+								response.data.result[9].content,
+								]
+						},
+						methods:{
+							pre:function(){
+								this.index--;
+							},
+							next:function(){
+								this.index++;
+							}
+						}
+					})
+					
+				  })
+				  .catch(function (error) {
+				    console.log(error);
+				  });
+			}
+			
+
+		</script>
+	</body>
+</html>

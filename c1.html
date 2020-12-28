@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<script type="text/javascript" src="./vue.js">
+			
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			{{message}}
+			<h2>{{ school.name }}{{ school.phone }}</h2>
+			<ul>
+				<li>{{ hobby[0] }}</li>
+				<li>{{ hobby[1] }}</li>
+				<li>{{ hobby[2] }}</li>
+			</ul>
+		</div>
+		
+		
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					message:"嫄",
+					//普通文本数据
+					school:{
+						name:"嫄啊嫄",
+						phone:"0364",
+						sex:"G"
+					},
+					//对象数据
+					hobby:["嫄","2","3"],
+					//数组数据
+				}
+			});
+		</script>
+	</body>
+</html>

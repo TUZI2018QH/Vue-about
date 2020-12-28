@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表动画</title>
+    <script src="vue.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.compat.css" rel="stylesheet">
+    <style>
+
+        #app{
+            /*margin-top: 2000px;*/
+        }
+        .custom-classes-transition{
+            transition: all 5s;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <form>
+            <input type="text" v-model="name">
+            <input type="submit" value="添加" @click.prevent="add">
+        </form>
+        <!--<ul>-->
+            <transition-group appear tag="ul" :duration="{leave:300}"
+                              name="custom-classes-transition"
+                              enter-active-class="animated fadeInUp"
+                              leave-active-class="animated fadeOutUp">
+                <li v-for="(person, index) in persons" :key="person.id">
+                    <input type="checkbox">
+                    <span>{{index}}---{{person.name}}</span>
+                    <a href="#" @click.prevent="del(index)">删除</a>
+                </li>
+            </transition-group>
+        <!--</ul>-->
+    </div>
+
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                persons:[
+                    {name:"asd", id:1},
+                    {name:"dsa", id:2},
+                    {name:"ddd", id:3}
+                ],
+                name:""
+            },
+            methods:{
+                add(){
+                    let lastPerson = this.persons.length; //取得persons数组长度 输出长度为 3
+                    console.log(lastPerson+1); //输出 4
+                    let newPerson = {name:this.name,id:lastPerson+1}; //创建新的数组数据，加1 很重要
+                    this.persons.unshift(newPerson);
+                    // console.log(lastPerson.key);
+                    this.name = "";
+                },
+                del(index){
+                    this.persons.splice(index,1);
+
+                }
+            }
+        })
+    </script>
+</body>
+</html>
