@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue父子组件</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+<father>
+    <!--<son></son>-->
+</father>
+
+
+<!--        <template id="home">
+            <div>
+                <p>我是首页</p>
+            </div>
+        </template>-->
+
+
+    </div>
+
+
+    <template id="father">
+        <div>
+            <p>我是父组件</p>
+            <son></son><!--定义在father组件中的送组件 只能在father组件中使用 其他位置无法使用-->
+        </div>
+    </template>
+    <template id="son">
+        <div>
+            <p>我是子组件</p>
+        </div>
+    </template>
+
+    <script>
+        Vue.component("father",{
+            template:"#father",
+            components: {
+                "son": {
+                    template: "#son"
+                }
+            }
+        });
+
+        new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+
+            },
+            components: {
+/*                "home": {
+                    template:"home",
+
+                }*/
+            }
+        })
+    </script>
+</body>
+</html>

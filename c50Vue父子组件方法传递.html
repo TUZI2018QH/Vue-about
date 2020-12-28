@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue父子组件方法传递</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <father></father>
+    </div>
+
+    <template id="father">
+        <div>
+            <p>我是父组件</p>
+            <button @click="say">按钮 </button>
+            <!--这里痛parentsay 将父组件的say方法传递给子组件-->
+            <son @parentsay="say "></son>
+        </div>
+    </template>
+    <template id="son">
+        <div>
+            <p>我是子组件</p>
+            <button @click="sonsay">按钮 </button>
+        </div>
+    </template>
+
+
+    <script>
+        Vue.component("father",{
+            template:"#father",
+            data: function(){
+                return {
+                    name:"lnj",
+                    age:33
+                }
+            },
+            methods:{
+                say(){
+                    alert("父组件的方法");
+                }
+            },
+            components: {
+                "son": {
+                    template: "#son",
+                    /*如果传递的是方法 那么子组件的的配置中不需要接收 需要在组件中定义一个方法*/
+                    methods:{
+                        sonsay(){
+                            this.$emit("parentsay")
+                        }
+                    }
+                }
+            }
+        });
+
+
+        new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+
+            },
+        })
+    </script>
+</body>
+</html>
