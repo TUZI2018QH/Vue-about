@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue匿名插槽</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <father>
+        </father>
+    </div>
+
+    <template id="father">
+        <div>
+            <!--需求：在使用子组件的时候给予子组件动态的添加一些内容-->
+            <son>
+                <!--默认情况下是不能在使用子组件的时候，给子组件添加内容的
+                    如果想在使用子组件的时候，给子组件动态添加内容，那么必须使用插槽
+                -->
+                <div>我是追加的内容1</div>
+                <div>我是追加的内容2</div>
+                <div>我是追加的内容3</div>
+            </son>
+        </div>
+    </template>
+
+    <template id="son">
+        <div>
+            <div>我是头部</div>
+            <!--插槽中的内容会被替换掉如果上文使用者中有内容的话
+                slot表示插槽 先占一个坑位
+                插槽可以指定默认数据 如果使用者没有填坑，则使用插槽内的默认数据
+
+                插槽可以指定名称 默认情况下没有指定名称 就叫做匿名插槽
+
+                特点：如果有多个匿名插槽 上面的填充内容就会被拷贝多份
+
+                    虽然可以指定多个匿名插槽，但在开发中推荐只写一个匿名插槽
+            -->
+            <slot>这里是插槽的内容（默认数据）</slot>
+            <slot>这里是插槽的内容（默认数据）</slot><!--填充内容*2-->
+            <slot>这里是插槽的内容（默认数据）</slot><!--填充内容*3-->
+            <div>我是底部</div>
+        </div>
+    </template>
+
+    <script>
+        Vue.component("father",{
+            template: "#father",
+            components: {
+                "son":{
+                    template: "#son"
+                }
+            }
+        });
+
+        new Vue({
+            el: "#app",
+            data: {},
+            methods: {},
+        })
+    </script>
+</body>
+</html>

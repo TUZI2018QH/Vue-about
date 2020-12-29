@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue组件 v-slot指令</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<!--
+    在2.6.0中，我们为具名插槽和作用域插槽引了一个新的统一的语法（
+    即 v-slot指令），它取代了slot和slot-scope
+
+    也就是说我们除了可以通过v-slot指令告诉Vue内容要填充到哪一个插槽中
+    还可以通过v-slot指令告诉Vue如何接受作用域插槽暴露的数据
+
+    v-slot：插槽名称=“作用域名称”
+-->
+    <div id="app">
+        <father></father>
+    </div>
+
+    <template id="father">
+        <div>
+            <son>
+                <!--<div>我是填充的内容{{names}}</div>-->
+<!--                <template slot-scope="aaa">
+                    &lt;!&ndash;<div>我是填充的内容{{aaa.name}}</div>&ndash;&gt;
+                    <li v-for="(n ,index) in aaa.namess">
+                        {{n}}
+                    </li>
+                </template>-->
+
+<!--                <template v-slot:default="aaa">
+                    <li v-for="(n, index) in aaa.namess">
+                        {{n}}
+                    </li>
+                </template>-->
+
+                <!--具名写法-->
+                <!--<template v-slot:one="aaa">
+                    <li v-for="(n, index) in aaa.namess">
+                        {{n}}
+                    </li>
+                </template>-->
+
+                <!--可以简写-->
+                <template #one="aaa">
+                    <li v-for="(n, index) in aaa.namess">
+                        {{n}}
+                    </li>
+                </template>
+            </son>
+        </div>
+    </template>
+
+    <template id="son">
+        <div>
+            <div>{{names}}我是头部</div>
+            <!-- v-bind:names="name" 將当前子组件的数据暴露给父组件 -->
+            <!--作用域插槽的应用场景 子组件提供数据 父组件决定如何渲染-->
+            <slot name="one" v-bind:namess="names">我是默认内容{{names}}</slot>
+            <div>我是底部</div>
+        </div>
+    </template>
+
+    <script>
+        Vue.component("father",{
+            template: "#father",
+            components: {
+                "son" :{
+                    template: "#son",
+                    data: function () {
+                        return{
+                            names:["xx","ll","my","qh"]
+                        }
+                    }
+                }
+            }
+        });
+
+        new Vue({
+            el: "#app",
+            data: {},
+            methods: {},
+        })
+    </script>
+</body>
+</html>

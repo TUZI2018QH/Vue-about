@@ -8,6 +8,8 @@
 <body>
 <!--Vue中 儿子想要使用爷爷的数据 必须一层层往下传递
 方法也试如此-->
+
+<!--View-->
     <div id="app">
         <grandfather></grandfather>
     </div>
@@ -76,6 +78,7 @@
             }
         });
 
+        /*Model*/
         new Vue({
             el: "#app",
             data: {

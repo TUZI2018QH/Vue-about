@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue v-slot</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<!--
+    1.什么是v-s1ot指令?
+    v-slot指令是Vue2.6中用于替代s1ot属性的一个指令
+    在Vue2.6之前,我们通过slot属性告诉Ve当前内容填充到哪一个具名插槽
+    从Vue2.6开始,我们通过v-slot指令告诉Ve当前内容填充到哪一个具名插槽
+
+    注意点:v-slot指令只能用在template标签上
+    可以使用#号替代v-slot
+-->
+<div id="app">
+    <father></father>
+</div>
+
+<template id="father">
+    <div>
+        <!--需求：在使用子组件的时候给予子组件动态的添加一些内容-->
+        <son>
+            <!--默认情况下是不能在使用子组件的时候，给子组件添加内容的
+                如果想在使用子组件的时候，给子组件动态添加内容，那么必须使用插槽
+            -->
+            <!--这里通过slot属性告诉Vue，当前的内容是要填充到哪一个插槽中的-->
+
+            <!--<div slot="one">我是追加的内容1</div>
+            <div slot="two">我是追加的内容2</div>
+            <div>我是追加的内容3</div>-->
+
+            <!-- v-slot只能用在template标签中
+                简写方式 “#”
+            -->
+            <!--<template v-slot:one>
+                <div>我是追加的内容1</div>
+                <div>我是追加的内容11</div>
+            </template>
+            <template v-slot:two>
+                <div>我是追加的内容2</div>
+                <div>我是追加的内容22</div>
+            </template>-->
+            <template #one>
+                <div>我是追加的内容1</div>
+                <div>我是追加的内容11</div>
+            </template>
+            <template #two>
+                <div>我是追加的内容2</div>
+                <div>我是追加的内容22</div>
+            </template>
+        </son>
+    </div>
+</template>
+
+<template id="son">
+    <div>
+        <div>我是头部</div>
+        <!--可以在在定义插槽时候添加一个name属性，通过这个name属性里指定插槽的名称
+            如果插槽指定的名称 就称之为具名插槽
+        -->
+        <!--注意点：默认情况下填充的内容是不会被填充到具名插槽中的，
+                    只有给填充的内容指定了要填充到哪一个具名插槽中之后，
+                    才会将填充的内容填充到具名插槽中-->
+        <!--<slot>这里是插槽的内容</slot>-->
+        <slot name="one">这里是插槽的内容</slot>
+        <slot name="two">这里是插槽的内容</slot><!--填充内容*3-->
+        <div>我是底部</div>
+    </div>
+</template>
+
+<script>
+    Vue.component("father",{
+        template: "#father",
+        components: {
+            "son" :{
+                template: "#son"
+            }
+        }
+    });
+
+    new Vue({
+        el: "#app",
+        data: {},
+        methods: {},
+    })
+</script>
+</body>
+</html>

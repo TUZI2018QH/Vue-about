@@ -4,16 +4,41 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>图片轮播</title>
-		<script type="text/javascript" src="./vue.js">
-			
-		</script>
+		<script type="text/javascript" src="./vue.js"></script>
+
+		<style>
+			.s-enter{
+				/*margin-left: 500px;*/
+				opacity: 0;
+			}
+			.s-enter-to{
+				/*margin-left: 0;*/
+				opacity: 1;
+			}
+			.s-enter-active{
+				transition: all .5s;
+			}
+
+			.s-leave{
+				opacity: 1;
+			}
+			.s-leave-to{
+				opacity: 0;
+			}
+			.s-leave-active{
+				transition: all .5s;
+			}
+			.
+		</style>
 	</head>
 	<body>
 		<div id="app">
-			<img :src="imgList[index]" />
-			
-			<button type="button" @click="pre" v-show="index!=0"> < </button>
+			<transition appear name="s" mode="out-in">
+				<img :src="imgList[index]"  alt="1">
+			</transition>
+			<button type="button" @click="pre" v-show="index != 0"> < </button>
 			<button type="button" @click="next" v-show="index != imgList.length-1"> > </button>
+
 		</div>
 		
 		
