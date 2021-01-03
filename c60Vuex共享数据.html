@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuex共享数据</title>
+    <script src="vue.js"></script>
+    <!--导入vuex 导入之前必须先导入vue-->
+    <script src="vuex.js"></script>
+</head>
+<body>
+<!--
+vuex是vue配套的公共数据管理工具，我们可以讲共享的数据保存到vuex中，
+方便整个程序中的任何组件都可以获取和修改vuex中保存的公共数据
+-->
+    <div id="app">
+        <grandfather></grandfather>
+    </div>
+
+    <template id="grandfather">
+        <div>
+            <p>{{this.$store.state.msg}}</p>
+            <father></father>
+        </div>
+    </template>
+
+    <template id="father">
+        <div>
+            <p>{{this.$store.state.msg}}</p>
+            <son></son>
+        </div>
+    </template>
+
+    <template id="son">
+        <div>{{this.$store.state.msg}}</div>
+    </template>
+
+    <script>
+        const store = new Vuex.Store({
+            //这里的state 相当于组件中的data 专门用于保存共享数据
+            state: {
+                msg: "qwe"
+            }
+        });
+
+        Vue.component(
+            "grandfather",{
+            template:"#grandfather",
+            store:store,
+
+            components:{
+                "father":{
+                    template: "#father",
+
+                    components: {
+                        "son":{
+                            template:"#son"
+                        }
+                    }
+                }
+            }
+        });
+
+        new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+
+            },
+        })
+    </script>
+</body>
+</html>

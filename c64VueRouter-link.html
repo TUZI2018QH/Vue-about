@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VueRouter-link</title>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+
+    <style>
+        .ss{
+            text-decoration: none;
+        }
+/*        .router-link-active{
+            background-color: aquamarine;
+        }*/
+        .nj-active{
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!--<a href="#/one">切换到第一个界面</a>-->
+        <!--<a href="#/two">切换到第二个界面</a>-->
+
+        <!--但如果是通过router-link设置URLd的哈希值，就不需要‘#’号  那么是通过to来设置HASH值-->
+        <!--默认情况下Vue在渲染router-link的时候，是通过a标签来渲染的
+        在开发中，不想要a标签来渲染，可以通过tag属性来指定渲染标签-->
+        <router-link to="/one" class="ss" tag="button">切换到第一个界面</router-link>
+        <router-link to="/two" tag="button">切换到第二个界面</router-link>
+        <router-view></router-view>
+    </div>
+
+    <template id="one">
+        <div class="c1">
+            <p>我是第一个界面</p>
+        </div>
+    </template>
+
+    <template id="two">
+        <div class="c2">
+            <p>我是第二个界面</p>
+        </div>
+    </template>
+
+    <script>
+        //定义组件
+        const one ={
+            template:"#one"
+        };
+        const two ={
+            template:"#two"
+        };
+
+        //2定义路由规则
+        const routes =[
+            { path: '/', redirect: '/one' },//路由的重定向  指定打开页面时默认显示的页面
+            //数组中的没哟个对象就是一个规则
+            {path:'/one',component:one},
+            {path:'/two',component:two}
+        ];
+        //3根据自定的切换规则 创建路由对象
+        const router = new VueRouter({
+            routes:routes,
+            //自定义导航激活状态的class
+            linkActiveClass:"nj-active"
+        });
+
+        new Vue({
+            el: "#app",
+            router:router,
+            data: {},
+            methods: {},
+        })
+    </script>
+</body>
+</html>

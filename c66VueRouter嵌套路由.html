@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VueRouter嵌套路由</title>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <style>
+        .nj-active{
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        1.嵌套路由也称为子路由，就是在被切换的组件中又切换其他子组件
+        例如：在one界面中又有两个按钮，通过这两个按钮进一步切换one中的内容
+    -->
+    <div id="app">
+        <!--过URL参数传参（？key=value&key=value），通过this.route.query获取-->
+        <router-link to="/one" tag="button" >切换到第一个界面</router-link>
+
+        <!--过占位符传递(路由规则中/:key/:key,路径中/value/value)，通过this.$route.params获取-->
+        <router-link to="/two" tag="button">切换到第二个界面</router-link>
+
+        <!--路由出口-->
+        <router-view></router-view>
+    </div>
+
+
+
+    <template id="one">
+        <div class="c1">
+            <p>我是第一个界面</p>
+            <router-link to="/one/onesub1" tag="button">第一个子界面</router-link>
+            <router-link to="/one/onesub2" tag="button">第二个子界面</router-link>
+
+            <router-view></router-view>
+        </div>
+    </template>
+
+    <template id="onesub1">
+        <div>
+            <p>我是第一个界面子界面1</p>
+        </div>
+    </template>
+
+    <template id="onesub2">
+        <div>
+            <p>我是第一个界面子界面2</p>
+        </div>
+    </template>
+
+    <template id="two">
+        <div class="c2">
+            <p>我是第二个界面</p>
+        </div>
+    </template>
+
+
+
+<script>
+    //定义二级路由组件
+    const onesub1 ={
+        template:"#onesub1",
+    };
+    const onesub2 ={
+        template:"#onesub2",
+    };
+
+    //定义组件
+    const one ={
+        template:"#one",
+        components:{
+            onesub1:onesub1,
+            onesub2:onesub2
+        }
+
+    };
+    const two ={
+        template:"#two",
+    };
+
+    //2定义路由规则
+    const routes =[
+        // { path: '/', redirect: '/one' },//路由的重定向  指定打开页面时默认显示的页面
+        //数组中的没哟个对象就是一个规则
+        {
+            path:'/one',
+            component:one,
+            //如果是嵌套路由，不用写一级路由的地址 也不需要‘/’
+            // children:[{path:'/one/onesub1'}]
+            children:[
+                {path:'/',redirect:'onesub1'},
+                {path:'onesub1',component:onesub1},
+                {path:'onesub2',component:onesub2},
+            ]
+        },
+        // {path:'/one/onesub1',component:onesub1},  //嵌套路由可以这样书写 但是新界面会将原有界面给完全替换掉，所以不这么写
+        // {path:'/one/onesub2',component:onesub2},
+        {path:'/two',component:two}
+    ];
+    //3根据自定的切换规则 创建路由对象
+    const router = new VueRouter({
+        routes:routes,
+        //自定义导航激活状态的class
+        linkActiveClass:"nj-active"
+    });
+
+    new Vue({
+        el: "#app",
+        router:router,
+        data: {
+
+        },
+        methods: {
+
+        },
+    });
+    // console.log(this.$route);
+</script>
+</body>
+</html>

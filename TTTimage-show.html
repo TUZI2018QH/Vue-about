@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="vue.js"></script>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #app{
+            width: 90%;
+            /*height: 100vh;*/
+            text-align: center;
+            margin: 100px auto 0 auto;
+            overflow:hidden;
+        }
+        img{
+            width: 400px;
+            height: 400px;
+        }
+
+        .jianzu-enter{
+            opacity: 0;
+            /*margin-left: 150px;*/
+            /*transform: scale(1.1);*/
+            transform: rotate(-90deg) scale(1.1);
+        }
+        .jianzu-enter-to{
+            opacity: 1;
+        }
+        .jianzu-enter-active{
+            transition: all .2s;
+        }
+
+        .jianzu-leave{
+            opacity: 1;
+        }
+        .jianzu-leave-to{
+            opacity: 0;
+            /*margin-left: 150px;*/
+            /*transform: scale(1.1);*/
+            transform: rotate(90deg) scale(1.1);
+        }
+        .jianzu-leave-active{
+            transition: all .2s;
+        }
+
+        input{
+            width: 20px;
+            border-radius: 50%;
+            transition: all .3s;
+        }
+        input:hover{
+            background-color: #00FF00;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <transition appear name="jianzu" mode="out-in">
+            <component v-bind:is="names"></component>
+        </transition>
+
+        <!--<input type="button" :value="imgname[0]" @mouseover="turn1">-->
+        <!--<input type="button" :value="imgname[1]" @mouseover="turn2">-->
+        <!--<input type="button" :value="imgname[2]" @mouseover="turn3">-->
+        <!--<input type="button" :value="imgname[3]" @mouseover="turn4">-->
+        <!--<input type="button" :value="imgname[4]" @mouseover="turn5">-->
+
+        <input type="button" @mouseover="turn1">
+        <input type="button" @mouseover="turn2">
+        <input type="button" @mouseover="turn3">
+        <input type="button" @mouseover="turn4">
+        <input type="button" @mouseover="turn5">
+    </div>
+
+    <template id="imga">
+        <div>
+            <img src="./image/01.gif" alt="">
+            <!--<imgb :imglistb="imglist[1]"></imgb>-->
+        </div>
+    </template>
+
+    <template id="imgb">
+        <div>
+            <img src="./image/02.gif" alt="">
+        </div>
+    </template>
+
+    <template id="imgc">
+        <div>
+            <img src="./image/03.gif" alt="">
+        </div>
+    </template>
+
+    <template id="imgd">
+        <div>
+            <img src="./image/04.gif" alt="">
+        </div>
+    </template>
+
+    <template id="imge">
+        <div>
+            <img src="./image/05.gif" alt="">
+        </div>
+    </template>
+
+    <script>
+        Vue.component("imga",{
+            template:"#imga"
+        });
+        Vue.component("imgb",{
+            template:"#imgb",
+        });
+        Vue.component("imgc",{
+            template:"#imgc",
+        });
+        Vue.component("imgd",{
+            template:"#imgd",
+        });
+        Vue.component("imge",{
+            template:"#imge",
+        });
+
+        new Vue({
+            el: "#app",
+            data: {
+                names:"imga",
+                imgname:["imga","imgb","imgc","imgd","imge"]
+            },
+            methods: {
+                turn1(){
+                    this.names = "imga"
+                },
+                turn2(){
+                    this.names = "imgb"
+                },
+                turn3(){
+                    this.names = "imgc"
+                },
+                turn4(){
+                    this.names = "imgd"
+                },
+                turn5(){
+                    this.names = "imge"
+                },
+            },
+        })
+    </script>
+</body>
+</html>

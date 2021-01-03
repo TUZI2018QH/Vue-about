@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuex-getters属性</title>
+    <script src="vue.js"></script>
+    <script src="vuex.js"></script>
+</head>
+<body>
+    <div id="app">
+        <father></father>
+    </div>
+
+    <template id="father">
+        <div>
+           <!--{{format}}-->
+           <!--{{format}}-->
+           <!--{{format}}-->
+
+            <!--{{this.$store.state.msg}}-->
+            <!--{{this.$store.state.msg}}-->
+            <!--{{this.$store.state.msg}}-->
+
+            {{this.$store.getters.format}}
+            {{this.$store.getters.format}}
+            {{this.$store.getters.format}}
+        </div>
+    </template>
+
+    <template id="son1">
+        <div>
+        </div>
+    </template>
+
+    <template id="son2">
+        <!--
+        需求：在第二个子组件中使用第一个子组件的数据
+        如果想在子组件中使用父组件的数据，那么必须通过父组件传递
+        需要借助父组件
+        -->
+        <div>
+        </div>
+    </template>
+
+    <script>
+        const store = new Vuex.Store({
+            //用于保存修改共享数据
+            state:{
+                msg:"qwer"
+            },
+            //用于保存修改数据的方法
+            mutations: {
+                //注意点：在执行mutations中定义的方法的时候，系统会自动给这些方法传递一个state参数
+                //state中保存了共享的数据
+            },
+            getters:{
+                format(state) {
+                    console.log("getters的方法被执行了,使用了三次，但此语句只执行了一次，剩下两次都是从缓存里读取的，Vuex的getters同computed一样");
+                    return state.msg + 202020;
+                }
+            }
+        });
+
+        Vue.component("father",{
+            template:"#father",
+            store:store,
+            data:function(){
+                return{
+                    msg:"qwr"
+                }
+            },
+            methods:{
+
+            },
+            computed: {
+                format(){
+                    console.log("计算属性的方法");
+                    return this.msg+"rrr"
+                }
+            },
+            components:{
+                "son1":{
+                    template: "#son1",
+                },
+                "son2":{
+                    template: "#son2",
+                }
+            }
+        });
+
+
+        new Vue({
+            el: "#app",
+            data: {
+
+            },
+            methods: {
+
+            },
+            computed:{}
+        })
+    </script>
+</body>
+</html>

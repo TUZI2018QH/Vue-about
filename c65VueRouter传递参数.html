@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VueRouter传递参数</title>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <style>
+        .nj-active{
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+<!--
+    1.Vue Router传递参数
+    只要将Vue Router挂载到了Vue实例上，我们就可以通过vue.$route拿到路由对象
+    只要能拿到路由对象，就可以通过路由对象拿到的传递的参数
+
+    方式一：通过URL参数传参（？key=value&key=value），通过this.route.query获取
+    方式二：通过占位符传递(路由规则中/:key/:key,路径中/value/value)，通过this.$route.params获取
+-->
+    <div id="app">
+        <!--过URL参数传参（？key=value&key=value），通过this.route.query获取-->
+        <router-link to="/one?name=dkd&age=23" class="ss" tag="button">切换到第一个界面</router-link>
+
+        <!--过占位符传递(路由规则中/:key/:key,路径中/value/value)，通过this.$route.params获取-->
+        <router-link to="/two/DKD/46" tag="button">切换到第二个界面</router-link>
+
+        <!--路由出口-->
+        <router-view></router-view>
+    </div>
+
+    <template id="one">
+        <div class="c1">
+            <p>我是第一个界面</p>
+        </div>
+    </template>
+
+    <template id="two">
+        <div class="c2">
+            <p>我是第二个界面</p>
+        </div>
+    </template>
+
+    <script>
+        //定义组件
+        const one ={
+            template:"#one",
+            created:function () {
+                console.log(this.$route);
+                console.log(this.$route.query.name);
+                console.log(this.$route.query.age);
+            }
+        };
+        const two ={
+            template:"#two",
+            created:function () {
+                console.log(this.$route);
+                // console.log(this.$route.query.name);
+                // console.log(this.$route.query.age);
+
+                //通过占位符获取
+                console.log(this.$route.params.name);
+                console.log(this.$route.params.age);
+            }
+        };
+
+        //2定义路由规则
+        const routes =[
+            // { path: '/', redirect: '/one' },//路由的重定向  指定打开页面时默认显示的页面
+            //数组中的没哟个对象就是一个规则
+            {path:'/one',component:one},
+            {path:'/two/:name/:age',component:two}
+        ];
+        //3根据自定的切换规则 创建路由对象
+        const router = new VueRouter({
+            routes:routes,
+            //自定义导航激活状态的class
+            linkActiveClass:"nj-active"
+        });
+
+        new Vue({
+            el: "#app",
+            router:router,
+            data: {
+
+            },
+            methods: {
+
+            },
+        });
+        // console.log(this.$route);
+    </script>
+</body>
+</html>

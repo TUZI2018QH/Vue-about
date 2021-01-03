@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue生命周期方法</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<!--
+1.什么是生命周期方法?
+和 webpack生命周期方法一样,都是在从生到死的特定阶段调用的方法
+PS:生命周期钩子=生命周期函数=生命周期事件
+
+2.Vue生命周期方法分类
+2.1创建期间的生命周期方
+    before-create
+    created
+    before-mount
+    mounted
+
+2.2运行期间的生命周期方法
+    before-Update
+    updated
+
+2.3销毁期间生命周期方法
+    before-destroy
+    destroyed
+-->
+    <div id="app">
+        <!--<p>{{msg}}</p>-->
+        <button @click="change">切换</button>
+
+        <!--通过v-if来切换， 会直接删除和重新创建 -->
+        <one v-if="isShow"></one>
+
+    </div>
+
+<!--Vue实例对象可以看做是大组件
+    自定组件可以看做是小组件
+    那么大组件中可以使用的属性和方法，在小组件中也可以使用
+    例如:在Vue实例中我们可以添加data, methods,那么在自定义的组件中也可以添加data, methods
+    所以Vue实例中可以使用生命周期方法,组件中也可以使用生命周期方法
+-->
+    <template id="one">
+        <div>
+            <p>我是组件</p>
+        </div>
+    </template>
+
+    <script>
+
+        Vue.component("one",{
+            template:"#one",
+            data:function () {
+                return{
+                    msg:"999"
+                }
+            },
+            methods: {
+                say(){
+                    console.log("说说");
+                }
+            },
+            beforeDestroy:function () {
+                /*
+                *在调用beforeDestoy的时候，表示当前组件即将被销毁
+                * 注意点：只要组件不被销毁，那么beforeDestoy就不会被调用
+                * beforeDestoy函数使我们最后能够访问到组件数据和方法的函数
+                * */
+ /*               console.log("beforeDestoy");
+                console.log(this.msg);
+                console.log(this.say);*/
+            },
+            destroyed:function () {
+                /*
+                *在调用destroyed的时候，表示当前组件已经被销毁了
+                * 注意点：只要组件不被销毁，那么destroyed就不会被调用
+            *           不要在这个生命周期方法中再去操作组件中的数据和方法，无论此周期中能否拿到组件中的数据和方法
+                * */
+                console.log("destoyed");
+            }
+        });
+
+        new Vue({
+            //创建生命周期方法
+            beforeCreate:function(){
+                /*
+                * 在调用beforeCreate的时候，，仅仅表示Vue实例刚刚被创建出来
+                * 此时还不能使用实例中的data和methods
+                * */
+                // console.log(this.msg);
+                // console.log(this.say);
+            },
+            created:function(){
+                /*
+                * 在调用created的时候，使我们最早能访问Vue实例中的data和methods的时候
+                * */
+    /*            console.log(this.msg);
+                console.log(this.say);*/
+            },
+            beforeMount:function(){
+                /*
+                * 在调用beforeMount的时候，表示Vue已经编译好了最终模板，但是还没有将最终模板渲染到
+                * 页面上
+                * */
+/*                console.log(document.querySelector("p").innerHTML);
+                console.log(document.querySelector("p").innerText);*/
+            },
+            mounted:function(){
+                /*
+                *在调用mounted的时候，表示Vue已经完成模板的渲染，已经可以拿到界面上的数据了
+                * */
+/*                console.log(document.querySelector("p").innerHTML);
+                console.log(document.querySelector("p").innerText);*/
+            },
+
+
+            //运行周期方法//////////////////////////////////////////////
+            beforeUpdate:function(){
+                /*
+                * 在调用 beforeupdate的时候,表示Vue实例中保存的数据被修改了
+                * 注意点:只有保存的数据被修改了才会调用 beforeupdate,否则不会调用
+                * 注意点：在调用beforeUpdate的时候，数据已经更新了，但是界面还没有更新
+                * */
+                // console.log("beforeUpdate");
+                /*console.log(this.msg);
+                console.log(document.querySelector("p").innerHTML);
+                console.log(document.querySelector("p").innerText);*/
+            },
+            updated:function(){
+                /*
+                *在调用 updated的时候,表示Vue实例中保存的数据被修改了,并且界面也同步了修改的数据了
+                * 也就是说:”数据和界面都同步更新之后就会调用
+                * */
+/*                console.log(this.msg);
+                console.log(document.querySelector("p").innerHTML);
+                console.log(document.querySelector("p").innerText);*/
+            },
+
+
+            //销毁周期方法//////////////////////////////////////////////
+
+
+            el: "#app",
+            data: {
+                msg:"dede",
+                isShow:false
+            },
+            methods: {
+                say(){
+                    console.log("说");
+                },
+                change(){
+                    this.isShow = !this.isShow;
+                }
+            },
+        })
+    </script>
+</body>
+</html>

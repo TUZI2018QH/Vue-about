@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue组件 数据传递练习</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <father></father>
+    </div>
+
+    <template id="father">
+        <div>
+            <son1 @parentchange="change"></son1>
+            <son2 :parentnum="num"></son2>
+        </div>
+    </template>
+
+    <template id="son1">
+        <div>
+            <button @click="add">++</button>
+            <button @click="sub">--</button>
+            <input type="text" :value="count">
+        </div>
+    </template>
+
+    <template id="son2">
+        <!--
+        需求：在第二个子组件中使用第一个子组件的数据
+        如果想在子组件中使用父组件的数据，那么必须通过父组件传递
+        需要借助父组件
+        -->
+        <div>{{parentnum}}</div>
+    </template>
+
+    <script>
+        Vue.component("father",{
+            template:"#father",
+            data:function () {
+                return{
+                    num:0
+                }
+            },
+            methods:{
+                change(newCount,aa){
+                    this.num = newCount + aa;
+                }
+            },
+            components:{
+                "son1":{
+                    template: "#son1",
+                    data:function () {
+                        return{
+                            count:0
+                        }
+                    },
+                    methods:{
+                        add(){
+                            this.count = this.count+1;
+                            this.$emit("parentchange",this.count,123);
+                        },
+                        sub(){
+                            this.count = this.count-1;
+                            this.$emit("parentchange",this.count,123);
+                        }
+                    }
+
+                },
+                "son2":{
+                    template: "#son2",
+                    props:["parentnum"]
+                }
+            }
+        });
+
+        new Vue({
+            el: "#app",
+            data: {
+                num:0
+            },
+            methods: {
+
+            },
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VueRouter Watch属性</title>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <style>
+        .nj-active{
+            background-color: aquamarine;
+        }
+
+        .jianzu-enter{
+            opacity: 0;
+            /*margin-left: 150px;*/
+            transform: scale(2) translateX(15%);
+        }
+        .jianzu-enter-to{
+            opacity: 1;
+        }
+        .jianzu-enter-active{
+            transition: all .5s;
+        }
+
+        .jianzu-leave{
+            opacity: 1;
+        }
+        .jianzu-leave-to{
+            opacity: 0;
+            /*margin-left: 150px;*/
+            transform: scale(2) translateX(15%);
+
+        }
+        .jianzu-leave-active{
+            transition: all .5s;
+        }
+    </style>
+</head>
+<body>
+<!--
+    1.什么是watch属性
+    Watch属性专门用于监听数据变化的，只要数据发生了变化，就会自动调用对应数据的回调方法
+
+    2Watch监听路由变化
+    Watch属性不仅仅能够监听数据的变化，还能够监听路由地址的变化
+    在开发中我们可以通过Watch来判断是从哪个界面跳转过来的
+-->
+<div id="app">
+<!--    &lt;!&ndash;<input type="text" v-model="num1" @keyup="change1">&ndash;&gt;
+    <input type="text" v-model="num1" >
+    <span>+</span>
+    &lt;!&ndash;<input type="text" v-model="num2" @keyup="change2">&ndash;&gt;
+    <input type="text" v-model="num2" >
+    <span>=</span>
+    <input type="text" disabled v-model="res">-->
+
+
+    <router-link to="/one" tag="button" >切换到第一个界面</router-link>
+
+    <!--过占位符传递(路由规则中/:key/:key,路径中/value/value)，通过this.$route.params获取-->
+    <router-link to="/two" tag="button">切换到第二个界面</router-link>
+    <!--路由出口-->
+    <!--<router-view name="name1"></router-view>-->
+    <!--<router-view name="name2"></router-view>-->
+    <router-view></router-view>
+</div>
+
+
+
+<template id="one">
+    <div>
+        <p>我是第一个界面</p>
+        <router-link to="/one/onesub1" tag="button">第一个子界面</router-link>
+        <router-link to="/one/onesub2" tag="button">第二个子界面</router-link>
+        <router-view></router-view>
+    </div>
+</template>
+
+<template id="onesub1">
+    <div>
+        <p>我是第一个界面子界面1</p>
+    </div>
+</template>
+
+<template id="onesub2">
+    <div>
+        <p>我是第一个界面子界面2</p>
+    </div>
+</template>
+
+<template id="two">
+    <div>
+        <p>我是第二个界面</p>
+    </div>
+</template>
+
+
+
+<script>
+    //定义二级路由组件
+    const onesub1 ={
+        template:"#onesub1",
+    };
+    const onesub2 ={
+        template:"#onesub2",
+    };
+
+    //定义组件
+    const one ={
+        template:"#one",
+        components:{
+            onesub1:onesub1,
+            onesub2:onesub2
+        }
+    };
+    const two ={
+        template:"#two",
+    };
+
+    //2定义路由规则  使用命名视图方式
+    const routes =[
+        {
+            path:'/one',
+            component:/*{
+                name1:one,
+                name2:two
+            },*/one,
+            children:[
+                {path:'/',redirect:'onesub1'},
+                {path:'onesub1',component:onesub1},
+                {path:'onesub2',component:onesub2},
+            ]
+        },
+        {path:'/two',component:two}
+    ];
+
+    //3根据自定的切换规则 创建路由对象
+    const router = new VueRouter({
+        routes:routes,
+        //自定义导航激活状态的class
+        linkActiveClass:"nj-active"
+    });
+
+    new Vue({
+        el: "#app",
+        router:router,
+        watch:{
+            //可以通过watch监听Model中数据的变化，只要数据有变化，就会自动调用相对应的回调函数
+/*            num1: function (newValue,oldValue) {
+                // console.log(this.num1);
+                // console.log(newValue);
+                // console.log(oldValue);
+                this.res = parseInt(this.num1) + parseInt(this.num2);
+            },
+            num2: function (newValue,oldValue) {
+                // console.log(this.num1);
+                // console.log(newValue);
+                // console.log(oldValue);
+                this.res = parseInt(this.num1) + parseInt(this.num2);
+            },*/
+
+            //可以通过watch监听路由地址的变化 只要路由地址有变化，就会自动调用相对应的回调函数
+            "$route.path":function (newValue,oldValue) {
+                console.log(oldValue,newValue);
+            }
+        },
+        data: {
+            // num1:0,
+            // num2:0,
+            // res:0
+        },
+        methods: {
+/*            change1(){
+                this.res = parseInt(this.num1) + parseInt(this.num2);
+            },
+            change2(){
+                this.res = parseInt(this.num1) + parseInt(this.num2);
+            }*/
+        },
+    });
+    console.log(this.$route);
+</script>
+</body>
+</html>
